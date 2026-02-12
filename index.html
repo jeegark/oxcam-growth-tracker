@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OxCAM Growth Scenario Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=Sora:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="topbar">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true"></span>
+            OxCAM Growth Watch
+          </div>
+          <nav class="site-nav" aria-label="Sections">
+            <a href="#ticker">Cost of Inaction</a>
+            <a href="#tracker">Implementation</a>
+            <a href="#timeline">Timeline</a>
+            <a href="#method">Method</a>
+          </nav>
+        </div>
+
+        <section class="hero" id="ticker">
+          <p class="eyebrow">Oxford-Cambridge Arc Monitoring</p>
+          <h1>Cost of Not Delivering the Growth Scenario</h1>
+          <p class="dek">
+            Live estimate of forgone economic value from delayed implementation
+            of the Public First policy package.
+          </p>
+
+          <div class="ticker-panel" aria-live="polite">
+            <p class="ticker-label">Estimated cumulative cost of inaction</p>
+            <p class="ticker-value" id="tickerValue">£0</p>
+            <p class="ticker-subline" id="tickerSubline">
+              Updating every second from 29 January 2025.
+            </p>
+            <div class="ticker-meta">
+              <div class="meta-item">
+                <span class="meta-label">Elapsed since launch</span>
+                <span class="meta-value" id="elapsedSince">--</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Current cost per second</span>
+                <span class="meta-value" id="currentRate">--</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Modelled annual inaction (current year)</span>
+                <span class="meta-value" id="currentYearCost">--</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="snapshot" aria-label="Implementation summary">
+          <article class="snap-card">
+            <p class="snap-label">Policies Tracked</p>
+            <p class="snap-value" id="policiesTracked">--</p>
+          </article>
+          <article class="snap-card">
+            <p class="snap-label">Implemented / Live</p>
+            <p class="snap-value" id="policiesImplemented">--</p>
+          </article>
+          <article class="snap-card">
+            <p class="snap-label">In Progress</p>
+            <p class="snap-value" id="policiesInProgress">--</p>
+          </article>
+          <article class="snap-card">
+            <p class="snap-label">At Risk / Stalled</p>
+            <p class="snap-value" id="policiesAtRisk">--</p>
+          </article>
+          <article class="snap-card">
+            <p class="snap-label">Upcoming Deadlines</p>
+            <p class="snap-value" id="upcomingDeadlines">--</p>
+          </article>
+        </section>
+      </header>
+
+      <main>
+        <section class="controls" id="tracker">
+          <div class="control-head">
+            <h2>Implementation Tracker</h2>
+            <p>
+              Status, developments, and deadlines across the Public First
+              Growth Scenario recommendations.
+            </p>
+          </div>
+          <div class="control-grid">
+            <label class="control">
+              <span>Search policy</span>
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Housing, visa, sandbox, skills..."
+                autocomplete="off"
+              />
+            </label>
+
+            <label class="control">
+              <span>Policy pillar</span>
+              <select id="pillarFilter">
+                <option value="all">All pillars</option>
+              </select>
+            </label>
+
+            <label class="control">
+              <span>Status</span>
+              <select id="statusFilter">
+                <option value="all">All statuses</option>
+              </select>
+            </label>
+
+            <label class="control">
+              <span>Sort</span>
+              <select id="sortSelect">
+                <option value="priority">Risk priority</option>
+                <option value="recent">Most recently updated</option>
+                <option value="deadline">Nearest deadline</option>
+                <option value="alpha">Policy name A-Z</option>
+              </select>
+            </label>
+          </div>
+          <p class="visible-count" id="visibleCount">Showing -- policies</p>
+        </section>
+
+        <section class="policy-grid" id="policyList"></section>
+
+        <section class="timeline" id="timeline">
+          <div class="section-head">
+            <h2>Developments Timeline</h2>
+            <p id="timelineSummary">
+              Announcements, status changes, and upcoming deadlines.
+            </p>
+          </div>
+          <ol class="timeline-list" id="timelineList"></ol>
+        </section>
+
+        <section class="method" id="method">
+          <div class="section-head">
+            <h2>Method and Sources</h2>
+            <p id="datasetUpdated">Last updated: --</p>
+          </div>
+          <ul class="method-list">
+            <li>
+              The counter starts at midnight on
+              <strong>29 January 2025 (GMT)</strong>.
+            </li>
+            <li>
+              The annual growth profile is a convex trajectory calibrated to
+              match a cumulative <strong>£78 billion by end-2035</strong>.
+            </li>
+            <li>
+              After 2035, the model continues at the 2035 implied annual run
+              rate until superseded by new data.
+            </li>
+            <li>
+              Tracker statuses are evidence-led and based on named official
+              releases and project updates.
+            </li>
+          </ul>
+          <h3>Primary Sources</h3>
+          <ul class="source-list" id="sourceList"></ul>
+        </section>
+      </main>
+    </div>
+
+    <template id="policyTemplate">
+      <article class="policy-card">
+        <header class="policy-head">
+          <div>
+            <p class="policy-pillar"></p>
+            <h3 class="policy-title"></h3>
+          </div>
+          <span class="status-badge"></span>
+        </header>
+
+        <p class="policy-recommendation"></p>
+
+        <div class="policy-meta">
+          <p><strong>Lead:</strong> <span class="policy-lead"></span></p>
+          <p><strong>Progress:</strong> <span class="policy-progress"></span></p>
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill"></div>
+        </div>
+
+        <div class="policy-dates">
+          <p>
+            <span class="label">Last update</span>
+            <span class="value policy-last-update"></span>
+          </p>
+          <p>
+            <span class="label">Next deadline</span>
+            <span class="value policy-next-deadline"></span>
+          </p>
+        </div>
+
+        <ul class="policy-events"></ul>
+        <div class="policy-links"></div>
+      </article>
+    </template>
+
+    <template id="timelineTemplate">
+      <li class="timeline-item">
+        <div class="timeline-marker"></div>
+        <article class="timeline-card">
+          <p class="timeline-date"></p>
+          <h3 class="timeline-title"></h3>
+          <p class="timeline-summary"></p>
+          <div class="timeline-tags"></div>
+          <a class="timeline-source" target="_blank" rel="noopener noreferrer">Source</a>
+        </article>
+      </li>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
